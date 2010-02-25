@@ -118,7 +118,8 @@ module FFMpeg
   #
   def execute_command(cmd)
     puts "Executing: #{cmd}}"
-    %x[#{cmd}]
+    %x[#{cmd} > /dev/null 2>&1] #be quiet and swallow the output
     puts $?.success?
+    $?.success?
   end
 end
