@@ -27,10 +27,11 @@ module FFMpeg
     # Everytime a method is added to the
     # class, check for conflicts with existing
     # module methods
-    #
-    def klass.method_added(name)
-      check_method(name) if method_checking_enabled?
-    end
+    # 
+    # Conflicts with other plugins in rails and causes weird errors
+    # def klass.method_added(name)
+    #   check_method(name) if method_checking_enabled?
+    # end
   end
   
   #
@@ -67,7 +68,10 @@ module FFMpeg
   # Runs ffmpeg
   #
   def run
-    @@ffmpeg_path ||= locate_ffmpeg
+    #hackish solution, but works for now. Was ||= before wich worked for the first run but exploded
+    #on further runs within rails 2.3.5 (collected all previous commands in the class_variable @@ffmpeg_path)
+    #couldn't reproduce this behaviour in isolated tests.
+    @@ffmpeg_path = locate_ffmpeg 
     unless @@ffmpeg_path.empty?
       execute_command FFMpegCommand.command(@@ffmpeg_path)
     else
