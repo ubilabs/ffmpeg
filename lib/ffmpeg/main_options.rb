@@ -12,8 +12,8 @@ module FFMpeg
     #
     # Overwrite output file if it already exists
     #
-    def overwrite_existing_file
-      FFMpegCommand.add_at("-y", 0)
+    def overwrite_existing_file(doit = false)
+      FFMpegCommand.add_at("-y", 0) if doit
     end
     
     #

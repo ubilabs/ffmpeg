@@ -63,6 +63,10 @@ module FFMpeg
   def ffmpeg_path(path)
     @@ffmpeg_path = path
   end
+  
+  def ffmpeg_path
+    @@ffmpeg_path ||= locate_ffmpeg
+  end
 
   #
   # Runs ffmpeg
